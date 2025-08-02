@@ -36,8 +36,26 @@ THREE_FACTORIAL = factorial(3) #6
 FIVE_FACTORIAL = factorial(5) #120
 SEVEN_FACTORIAL = factorial(7) #5040
 
+#python math.pi approximation
+PI = 3.141592653589793
+
 #just giving vals in the range rn
 def sin(rad):
-  return (rad - (power(rad, 3)/THREE_FACTORIAL) + (power(rad, 5)/FIVE_FACTORIAL) - (power(rad, 7)/SEVEN_FACTORIAL))
+  #put radian value in terms of one unit circle cycle
+  rad = rad % (PI*2)
 
-print(sin(3.14/2))
+  #put the radian value in terms of pi/2 (effective range)
+  
+  #PI/2 and 3PI/2 have to distinguished because of PI/2 being the clock
+  if rad == PI/2 or rad == (PI*3)/2:
+    rad_quart = rad
+  else:
+    rad_quart = rad % (PI/2)     
+
+  #handle flipping logic for rad_quart based on its quadrant
+
+  sin_val = (rad_quart - (power(rad_quart, 3)/THREE_FACTORIAL) + (power(rad_quart, 5)/FIVE_FACTORIAL) - (power(rad_quart, 7)/SEVEN_FACTORIAL))
+
+  return sin_val
+
+print(sin(PI/2))
