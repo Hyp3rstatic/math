@@ -71,6 +71,23 @@ def sin(rad):
 
   return sin_val
 
+def cos(rad):
+  #get sin val with phase shift
+  cos_val = sin( rad + (PI/2) )
+
+  #account for negatives on x-axis
+  rad = rad % (2*PI)
+  if rad > PI/2 and rad < (3*PI)/2:
+    cos_val = -1 * abs(cos_val)
+  if rad < PI/2 or rad > (3*PI)/2:
+    cos_val = abs(cos_val)
+  
+  return cos_val
+
+print("SIN:")
+
+print('')
+
 print("1: " + str(sin( PI/2 ))) #1
 print("0: " + str(sin( PI ))) #0
 print("-1: " + str(sin( (3*PI)/2 ))) #-1
@@ -97,3 +114,4 @@ print("0.5: " + str(sin( (5*PI)/6 ))) #0.5
 print("-0.5: " + str(sin( (7*PI)/6 ))) #-0.5
 print("-0.5: " + str(sin( (11*PI)/6 ))) #-0.5
 
+print('')
