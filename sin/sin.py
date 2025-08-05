@@ -43,17 +43,31 @@ def sin(rad):
   #put radian value in terms of one unit circle cycle
   rad = rad % (PI*2)
 
+  #the var that will be used for calculating sin
+  rad_quart = rad
+
+  #second quad and fourth quad flipping logic
+  if (rad > PI/2 and rad < PI) or (rad > (3*PI/2)):
+    #subtract the distance from 3PI/4*2 from rad_quart
+    if rad%(PI/2) > (PI/4):
+      rad_quart -= ( 2 * ( rad - (3*PI)/4 ) )
+    #add the distance from 3PI/4*2 to rad_quart
+    if rad%(PI/2) < (PI/4):
+      rad_quart += ( 2 * ( (3*PI)/4 - rad ) )
+
   #put the radian value in terms of pi/2 (effective range)
   #PI/2 and 3PI/2 have to distinguished because of PI/2 being the clock base
   if rad == PI/2 or rad == (PI*3)/2:
     rad_quart = PI/2
   else:
-    rad_quart = rad % (PI/2) 
+    rad_quart %= (PI/2) 
     #print("rad: " + str(rad)) #debug
 
-  #handle flipping logic for rad_quart based on its quadrant
-
   sin_val = (rad_quart - (power(rad_quart, 3)/THREE_FACTORIAL) + (power(rad_quart, 5)/FIVE_FACTORIAL) - (power(rad_quart, 7)/SEVEN_FACTORIAL))
+
+  #anything over pi rad is negative (2pi is 0 with mod)
+  if rad > PI:
+    sin_val *= -1
 
   return sin_val
 
