@@ -86,132 +86,67 @@ def cos(rad):
 
 import math
 
+def test_num_trig(cmprfunc, testfunc, num):
+  cmpr_val = cmprfunc(num)
+  diy_val = testfunc(num)
+  if not cmpr_val-0.01 <= diy_val <= cmpr_val+0.01:
+    print("cmpr_val: " + str(cmpr_val) + " | diy_val: " + str(diy_val))
+
+#for use in test_trig tests
 def test_num_sin(num):
-  py_sin = math.sin(num)
-  diy_sin = sin(num)
-  if (py_sin-0.01 <= diy_sin <= py_sin+0.01):
-    return
-  else:
-    print("py_sin: " + str(py_sin) + " | diy_sin: " + str(diy_sin))
-    return
+  test_num_trig(math.sin, sin, num)
 
 def test_num_cos(num):
-  py_cos = math.cos(num)
-  diy_cos = cos(num)
-  if (py_cos-0.01 <= diy_cos <= py_cos+0.01):
-    return
-  else:
-    print("py_cos: " + str(py_cos) + " | diy_cos: " + str(diy_cos))
-    return
+  test_num_trig(math.cos, cos, num)
 
-'''
-print("SIN:")
-
-print('')
-
-print("1: " + str(sin( PI/2 ))) #1
-print("0: " + str(sin( PI ))) #0
-print("-1: " + str(sin( (3*PI)/2 ))) #-1
-print("0: " + str(sin( 2*PI ))) #0
-
-print('')
-
-print("0.7: " + str(sin( PI/4 ))) #0.7
-print("0.7: " + str(sin( (3*PI)/4 ))) #0.7
-print("-0.7: " + str(sin( (5*PI)/4 ))) #-0.7
-print("-0.7: " + str(sin( (7*PI)/4 ))) #-0.7
-
-print('')
-
-print("0.86: " + str(sin( PI/3 ))) #0.86
-print("0.86: " + str(sin( (2*PI)/3 ))) #0.86
-print("-0.86:" + str(sin( (4*PI)/3 ))) #-0.86
-print("-0.86: " + str(sin( (5*PI)/3 ))) #-0.86
-
-print('')
-
-print("0.5: " + str(sin( PI/6 ) )) #0.5
-print("0.5: " + str(sin( (5*PI)/6 ))) #0.5
-print("-0.5: " + str(sin( (7*PI)/6 ))) #-0.5
-print("-0.5: " + str(sin( (11*PI)/6 ))) #-0.5
-
-print('')
-'''
+#test the accuracy of the 16 key angles for a visual unit test
+def test_key_angs_trig(cmprfunc, testfunc, msg):
+  print(msg)
+  next_ang = 30
+  for x in range(16):
+    ang = PI/180 * next_ang
+    #subtract from the ang for math.sin is done to avoid out of scope issues stemming from PI
+    print(str(next_ang) + " | " + str(cmprfunc(ang-0.001)) + ": " + str(testfunc(ang)))
+    #going to next key angle
+    if (x+1) % 4 == 0 or (x+2) % 4 == 0:
+      next_ang += 30
+    else:
+      next_ang += 15
+  print('')
 
 import time
 
+def test_trig_func(func, msg):
+  print(msg)
+  start = time.time()
+  for x in range(360*10000):
+    x *= PI/180
+    func(x)
+  print("TEST COMPLETE")
+  end = time.time()
+  print("time: " + str(end - start) + '\n')
+
 #SIN TESTING
 
-print("TIME FOR MATH SIN...")
-start = time.time()
-for x in range(360*100000):
-  x *= PI/180
-  math.sin(x)
-print("TIME COMPLETE")
-end = time.time()
-length = end - start
-print(length)
-print('')
+#note: running math.sin and diy sin in a function speeds up code compared to running it in main
+#python function optimizations at work - applies to cos too
+
+test_key_angs_trig(math.sin, sin, "CALCULATING KEY SIN ANGLES:")
+
+test_trig_func(math.sin, "TESTING MATH.SIN TIME...")
 
 #time for DIY is way worse, sin in python math lib points to a compiled c bin
+test_trig_func(sin, "TESTING DIY SIN TIME...")
 
-print("TIME FOR DIY SIN...")
-start = time.time()
-for x in range(360*100000):
-  x *= PI/180
-  sin(x)
-print("TIME COMPLETE")
-end = time.time()
-length = end - start
-print(length)
-print('')
-
-print("TESTING...")
-start = time.time()
-for x in range(360*100000):
-  x *= PI/180
-  test_num_sin(x)
-print("TESTING COMPLETE")
-end = time.time()
-length = end - start
-print(length)
-print('')
-
+test_trig_func(test_num_sin, "TESTING DIY SIN ACCURACY COMPARED TO MATH.SIN...")
 
 #COS TESTING
 
-print("TIME FOR MATH COS...")
-start = time.time()
-for x in range(360*100000):
-  x *= PI/180
-  math.cos(x)
-print("TIME COMPLETE")
-end = time.time()
-length = end - start
-print(length)
-print('')
+test_key_angs_trig(math.cos, cos, "TESTING KEY COS ANGLES:")
 
-#time for DIY is way worse, cos in python math lib points to a compiled c bin
-#this cos function also does unecessary work for negative number detection because it's built off of sin
+test_trig_func(math.cos, "TESTING MATH.COS TIME...")
 
-print("TIME FOR DIY COS...")
-start = time.time()
-for x in range(360*100000):
-  x *= PI/180
-  cos(x)
-print("TIME COMPLETE")
-end = time.time()
-length = end - start
-print(length)
-print('')
+#time for DIY cos is even worse because of how it's built on sin
+test_trig_func(cos, "TESTING DIY COS TIME...")
 
-print("TESTING...")
-start = time.time()
-for x in range(360*100000):
-  x *= PI/180
-  test_num_cos(x)
-print("TESTING COMPLETE")
-end = time.time()
-length = end - start
-print(length)
-print('')
+test_trig_func(test_num_cos, "TESTING DIY COS ACCURACY COMPARED TO MATH.COS...")
