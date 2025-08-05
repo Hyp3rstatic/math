@@ -92,9 +92,19 @@ def test_num_sin(num):
   if (py_sin-0.01 <= diy_sin <= py_sin+0.01):
     return
   else:
-    print("py_sin: " + str(py_sin) + " | my_sin: " + str(diy_sin))
+    print("py_sin: " + str(py_sin) + " | diy_sin: " + str(diy_sin))
     return
 
+def test_num_cos(num):
+  py_cos = math.cos(num)
+  diy_cos = cos(num)
+  if (py_cos-0.01 <= diy_cos <= py_cos+0.01):
+    return
+  else:
+    print("py_cos: " + str(py_cos) + " | diy_cos: " + str(diy_cos))
+    return
+
+'''
 print("SIN:")
 
 print('')
@@ -126,8 +136,11 @@ print("-0.5: " + str(sin( (7*PI)/6 ))) #-0.5
 print("-0.5: " + str(sin( (11*PI)/6 ))) #-0.5
 
 print('')
+'''
 
 import time
+
+#SIN TESTING
 
 print("TIME FOR MATH SIN...")
 start = time.time()
@@ -138,7 +151,6 @@ print("TIME COMPLETE")
 end = time.time()
 length = end - start
 print(length)
-
 print('')
 
 #time for DIY is way worse, sin in python math lib points to a compiled c bin
@@ -152,7 +164,6 @@ print("TIME COMPLETE")
 end = time.time()
 length = end - start
 print(length)
-
 print('')
 
 print("TESTING...")
@@ -164,3 +175,43 @@ print("TESTING COMPLETE")
 end = time.time()
 length = end - start
 print(length)
+print('')
+
+
+#COS TESTING
+
+print("TIME FOR MATH COS...")
+start = time.time()
+for x in range(360*100000):
+  x *= PI/180
+  math.cos(x)
+print("TIME COMPLETE")
+end = time.time()
+length = end - start
+print(length)
+print('')
+
+#time for DIY is way worse, cos in python math lib points to a compiled c bin
+#this cos function also does unecessary work for negative number detection because it's built off of sin
+
+print("TIME FOR DIY COS...")
+start = time.time()
+for x in range(360*100000):
+  x *= PI/180
+  cos(x)
+print("TIME COMPLETE")
+end = time.time()
+length = end - start
+print(length)
+print('')
+
+print("TESTING...")
+start = time.time()
+for x in range(360*100000):
+  x *= PI/180
+  test_num_cos(x)
+print("TESTING COMPLETE")
+end = time.time()
+length = end - start
+print(length)
+print('')
