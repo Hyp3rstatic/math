@@ -48,12 +48,12 @@ def sin(rad):
 
   #second quad and fourth quad flipping logic
   if (rad > PI/2 and rad < PI) or (rad > (3*PI/2)):
-    #subtract the distance from 3PI/4*2 from rad_quart
+    #correct overflip
     if rad%(PI/2) > (PI/4):
-      rad_quart -= ( 2 * ( rad - (3*PI)/4 ) )
-    #add the distance from 3PI/4*2 to rad_quart
+      rad_quart -= 2 * ( (rad%(PI/2)) - (PI/4) )
+    #correct underflip
     if rad%(PI/2) < (PI/4):
-      rad_quart += ( 2 * ( (3*PI)/4 - rad ) )
+      rad_quart += 2 * ( (PI/4) - (rad%(PI/2)) )
 
   #put the radian value in terms of pi/2 (effective range)
   #PI/2 and 3PI/2 have to distinguished because of PI/2 being the clock base
