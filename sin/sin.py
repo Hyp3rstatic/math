@@ -84,6 +84,17 @@ def cos(rad):
   
   return cos_val
 
+import math
+
+def test_num_sin(num):
+  py_sin = math.sin(num)
+  diy_sin = sin(num)
+  if (py_sin-0.01 <= diy_sin <= py_sin+0.01):
+    return
+  else:
+    print("py_sin: " + str(py_sin) + " | my_sin: " + str(diy_sin))
+    return
+
 print("SIN:")
 
 print('')
@@ -115,3 +126,41 @@ print("-0.5: " + str(sin( (7*PI)/6 ))) #-0.5
 print("-0.5: " + str(sin( (11*PI)/6 ))) #-0.5
 
 print('')
+
+import time
+
+print("TIME FOR MATH SIN...")
+start = time.time()
+for x in range(360*100000):
+  x *= PI/180
+  math.sin(x)
+print("TIME COMPLETE")
+end = time.time()
+length = end - start
+print(length)
+
+print('')
+
+#time for DIY is way worse, sin in python math lib points to a compiled c bin
+
+print("TIME FOR DIY SIN...")
+start = time.time()
+for x in range(360*100000):
+  x *= PI/180
+  sin(x)
+print("TIME COMPLETE")
+end = time.time()
+length = end - start
+print(length)
+
+print('')
+
+print("TESTING...")
+start = time.time()
+for x in range(360*100000):
+  x *= PI/180
+  test_num_sin(x)
+print("TESTING COMPLETE")
+end = time.time()
+length = end - start
+print(length)
